@@ -1,0 +1,24 @@
+{
+    "name": "malong/productai",
+    "description": "Official PHP SDK for ProductAI.",
+    "keywords": ["MaLong", "ProductAI", "SDK"],
+    "license": "MIT",
+    "homepage": "http://www.productai.cn",
+    "time": "2016-12-01",
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "ProductAI\\": "src/ProductAI/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jat",
+            "email": "jat@malongtech.cn",
+            "homepage": "http://www.malongtech.cn",
+            "role": "Developer"
+        }
+    ]
+}

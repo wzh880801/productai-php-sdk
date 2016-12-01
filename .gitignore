@@ -1,0 +1,6 @@
+/vendor
+composer.phar
+composer.lock
+config.inc.php
+.tags
+.tags_sorted_by_file
