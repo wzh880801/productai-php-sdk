@@ -7,6 +7,11 @@ use CURLFile;
 
 class API extends Base
 {
+    public function __call($name, $arguments)
+    {
+        $this->initialize();
+    }
+
     public function searchImage($service_type, $service_id, $image, $loc = [])
     {
         $prefix = substr($image, 0, 1);
@@ -53,6 +58,7 @@ class API extends Base
 
     public function removeImageFromSet($set_id, $image_url)
     {
+        $this->method = 'DELETE';
         $this->body['image_url'] = $image_url;
 
         return $this->curl('image_sets', "_0000014/$set_id");

@@ -7,12 +7,8 @@ class Base
     const VERSION = '0.0.1';
     const API = 'https://api.productai.cn';
 
-    private $access_key_id;
-    private $secret_key;
-
-    public $headers = [];
-    public $method = 'POST';
-    public $body = [];
+    protected $access_key_id;
+    protected $secret_key;
 
     public $curl_timeout = 30;
     public $curl_info;
@@ -23,6 +19,15 @@ class Base
     {
         $this->access_key_id = $access_key_id;
         $this->secret_key = $secret_key;
+
+        $this->initialize();
+    }
+
+    public function initialize()
+    {
+        $this->headers = [];
+        $this->method = 'POST';
+        $this->body = [];
     }
 
     public static function version()
