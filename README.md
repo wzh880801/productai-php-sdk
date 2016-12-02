@@ -2,7 +2,7 @@
 
 ### Install
 ```shell
-composer install
+composer require malong/productai
 ```
 
 ### Usage

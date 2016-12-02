@@ -67,7 +67,7 @@ class Base
         $requests = array_merge($this->headers, $this->body);
         ksort($requests);
 
-        return hash_hmac('sha1', urldecode(http_build_query($requests)), $this->secret_key);
+        return base64_encode(hash_hmac('sha1', urldecode(http_build_query($requests)), $this->secret_key));
     }
 
     public function curl($service_type, $service_id)

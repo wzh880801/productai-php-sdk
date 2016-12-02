@@ -21,10 +21,14 @@ class API extends Base
             case '#':
             case '@':
                 if ($prefix == '#') {
+                    if (!isset($_FILES[$image])) {
+                        throw new UnexpectedValueException("name $image not found in forms");
+                    }
+
                     $image = $_FILES[$image]['tmp_name'];
 
-                    if (!isset($image) || !is_uploaded_file($image)) {
-                        throw new UnexpectedValueException("Possible file upload attack: $image");
+                    if (!is_uploaded_file($image)) {
+                        throw new UnexpectedValueException("possible file upload attack: $image");
                     }
                 }
 

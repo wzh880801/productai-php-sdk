@@ -7,23 +7,23 @@ $url = 'http://image13.poco.cn/mypoco/myphoto/20130813/19/6486285020130813194827
 
 $product_ai = new \ProductAI\API(ACCESS_KEY_ID, SECRET_KEY);
 
-$result = $product_ai->searchImage('detect_cloth', '_0000025', $url);
+$result = $product_ai->searchImage('classify_fashion', '_0000001', $url);
+var_dump($result, $product_ai->curl_info);
+exit;
+$result = $product_ai->searchImage('classify_sleeve', '_0000002', '@'.__DIR__.'/example.jpg');
 var_dump($result, $product_ai->curl_info);
 
-$result = $product_ai->searchImage('detect_cloth', '_0000025', '@'.__DIR__.'/example.jpg');
+$result = $product_ai->searchImage('classify_color', '_0000003', '#test');
 var_dump($result, $product_ai->curl_info);
 
-$result = $product_ai->searchImage('detect_cloth', '_0000025', '#test');
+$result = $product_ai->addImageToSet(IMAGE_SET_ID, $url, 'test image');
+var_dump($result, $product_ai->curl_info);
+exit;
+$result = $product_ai->removeImageFromSet(IMAGE_SET_ID, $url);
 var_dump($result, $product_ai->curl_info);
 
-$result = $product_ai->addImageToSet('12345', $url, 'test image');
+$result = $product_ai->addImagesToSet(IMAGE_SET_ID, [$url, 'test image']);
 var_dump($result, $product_ai->curl_info);
 
-$result = $product_ai->removeImageFromSet('12345', $url);
-var_dump($result, $product_ai->curl_info);
-
-$result = $product_ai->addImagesToSet('12345', [$url, 'test image']);
-var_dump($result, $product_ai->curl_info);
-
-$result = $product_ai->removeImagesFromSet('12345', [$url]);
+$result = $product_ai->removeImagesFromSet(IMAGE_SET_ID, [$url]);
 var_dump($result, $product_ai->curl_info);
