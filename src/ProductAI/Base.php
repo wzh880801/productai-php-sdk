@@ -10,6 +10,10 @@ class Base
     protected $access_key_id;
     protected $secret_key;
 
+    public $method;
+    public $headers;
+    public $body;
+
     public $curl_timeout = 30;
     public $curl_info;
     public $curl_errno;
@@ -25,8 +29,8 @@ class Base
 
     public function initialize()
     {
-        $this->headers = [];
         $this->method = 'POST';
+        $this->headers = [];
         $this->body = [];
     }
 
