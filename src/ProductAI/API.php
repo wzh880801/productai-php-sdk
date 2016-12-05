@@ -2,36 +2,45 @@
 
 namespace ProductAI;
 
-use UnexpectedValueException;
+use LogicException;
+use RuntimeException;
 use CURLFile;
 
 class API extends Base
 {
-    public function __call($name, $arguments)
+    public function __call($name, $args)
     {
-        $this->initialize();
+        if (method_exists($this, $name)) {
+            $this->initialize();
+
+            return call_user_func_array([$this, $name], $args);
+        } else {
+            throw new LogicException('Call to undefined method '.get_class($this)."::{$name}()");
+        }
     }
 
-    public function searchImage($service_type, $service_id, $image, $loc = [])
+    protected function searchImage($service_type, $service_id, $image, $loc = [])
     {
         $prefix = substr($image, 0, 1);
-        $image = substr($image, 1);
 
         switch ($prefix) {
             case '#':
             case '@':
+                $image = substr($image, 1);
+
                 if ($prefix == '#') {
                     if (!isset($_FILES[$image])) {
-                        throw new UnexpectedValueException("name $image not found in forms");
+                        throw new RuntimeException("name $image not found in forms");
                     }
 
                     $image = $_FILES[$image]['tmp_name'];
 
                     if (!is_uploaded_file($image)) {
-                        throw new UnexpectedValueException("possible file upload attack: $image");
+                        throw new RuntimeException("possible file upload attack: $image");
                     }
                 }
 
+                $this->headers['x-ca-file-md5'] = md5_file($image);
                 $this->body['search'] = new CURLFile($image);
 
                 break;
@@ -49,7 +58,24 @@ class API extends Base
         return $this->curl($service_type, $service_id);
     }
 
-    public function addImageToSet($set_id, $image_url, $meta = '')
+    /*
+    protected function addImageSet($name, $description = '')
+    {
+        $this->body['name'] = $name;
+        $this->body['description'] = $description;
+
+        return $this->curl('image_sets', '_0000014');
+    }
+
+    protected function removeImageSet($set_id)
+    {
+        $this->method = 'DELETE';
+
+        return $this->curl('image_sets', "_0000014/$set_id");
+    }
+    */
+
+    protected function addImageToSet($set_id, $image_url, $meta = '')
     {
         $this->body['image_url'] = $image_url;
 
@@ -60,28 +86,35 @@ class API extends Base
         return $this->curl('image_sets', "_0000014/$set_id");
     }
 
-    public function removeImageFromSet($set_id, $image_url)
+    /*
+    protected function removeImageFromSet($set_id, $image_url)
     {
         $this->method = 'DELETE';
+
         $this->body['image_url'] = $image_url;
 
         return $this->curl('image_sets', "_0000014/$set_id");
     }
+    */
 
-    public function addImagesToSet($set_id, $images)
+    protected function addImagesToSet($set_id, $images)
     {
-        file_put_contents('php://temp', $this->convertArrayToCSV($images));
+        if (is_array($images)) {
+            $images = $this->convertArrayToCSV($images);
+        }
 
-        $this->body['urls_to_add'] = new CURLFile('php://temp');
+        $this->body['urls_to_add'] = new CURLFile($images);
 
         return $this->curl('image_sets', "_0000014/$set_id");
     }
 
-    public function removeImagesFromSet($set_id, $images)
+    protected function removeImagesFromSet($set_id, $images)
     {
-        file_put_contents('php://temp', $this->convertArrayToCSV($images));
+        if (is_array($images)) {
+            $images = $this->convertArrayToCSV($images);
+        }
 
-        $this->body['urls_to_del'] = new CURLFile('php://temp');
+        $this->body['urls_to_delete'] = new CURLFile($images);
 
         return $this->curl('image_sets', "_0000014/$set_id");
     }

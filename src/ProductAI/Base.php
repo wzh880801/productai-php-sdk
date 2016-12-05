@@ -4,7 +4,7 @@ namespace ProductAI;
 
 class Base
 {
-    const VERSION = '0.0.1';
+    const VERSION = '0.0.2';
     const API = 'https://api.productai.cn';
 
     protected $access_key_id;
@@ -14,10 +14,20 @@ class Base
     public $headers;
     public $body;
 
-    public $curl_timeout = 30;
+    public $headers2sign = [
+        'x-ca-version',
+        'x-ca-accesskeyid',
+        'x-ca-timestamp',
+        'x-ca-signaturenonce',
+        'requestmethod',
+    ];
+
+    public $curl_opt;
     public $curl_info;
     public $curl_errno;
     public $curl_error;
+
+    public $tmpfile;
 
     public function __construct($access_key_id, $secret_key)
     {
@@ -30,8 +40,21 @@ class Base
     public function initialize()
     {
         $this->method = 'POST';
-        $this->headers = [];
+
+        $this->headers = [
+            'x-ca-version' => 1,
+            'x-ca-accesskeyid' => $this->access_key_id,
+            'x-ca-timestamp' => time(),
+            'x-ca-signaturenonce' => $this->generateNonce(16),
+            'user-agent' => "ProductAI-SDK-PHP/{$this->version()} (+http://www.productai.cn)",
+        ];
+
         $this->body = [];
+
+        $this->curl_opt = [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 30,
+        ];
     }
 
     public static function version()
@@ -64,60 +87,79 @@ class Base
 
     public function signRequests()
     {
-        $requests = array_merge($this->headers, $this->body);
+        $headers = [];
+        foreach ($this->headers as $k => $v) {
+            if (in_array($k, $this->headers2sign)) {
+                $headers[$k] = $v;
+            }
+        }
+
+        $body = [];
+        foreach ($this->body as $k => $v) {
+            if (is_string($v)) {
+                $body[$k] = $v;
+            }
+        }
+
+        $requests = array_merge($headers, $body);
         ksort($requests);
 
-        return base64_encode(hash_hmac('sha1', urldecode(http_build_query($requests)), $this->secret_key));
+        return base64_encode(hash_hmac('sha1', urldecode(http_build_query($requests)), $this->secret_key, true));
     }
 
     public function curl($service_type, $service_id)
     {
-        $ch = curl_init("{$this->api()}/$service_type/$service_id");
+        $curl = curl_init("{$this->api()}/$service_type/$service_id");
 
-        $this->headers = [
-            'x-ca-version' => 1,
-            'x-ca-accesskeyid' => $this->access_key_id,
-            'x-ca-timestamp' => time(),
-            'x-ca-signaturenonce' => $this->generateNonce(16),
-            'user-agent' => "ProductAI-SDK-PHP/{$this->version()} (+http://www.productai.cn)",
-            'requestmethod' => $this->method,
-        ];
+        $this->curl_opt[CURLOPT_CUSTOMREQUEST] = $this->method;
 
+        $this->headers['requestmethod'] = $this->method;
         $this->headers['x-ca-signature'] = $this->signRequests();
 
         foreach ($this->headers as $k => $v) {
             $headers[] = "$k: $v";
         }
 
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => $this->body,
-            CURLOPT_TIMEOUT => $this->curl_timeout,
-        ]);
+        $this->curl_opt[CURLOPT_HTTPHEADER] = $headers;
 
-        $output = curl_exec($ch);
+        if ($this->body) {
+            $this->curl_opt[CURLOPT_POSTFIELDS] = $this->body;
+        }
 
-        $this->curl_info = curl_getinfo($ch);
-        $this->curl_errno = curl_errno($ch);
-        $this->curl_error = curl_error($ch);
+        curl_setopt_array($curl, $this->curl_opt);
 
-        curl_close($ch);
+        $output = curl_exec($curl);
+
+        $this->curl_info = curl_getinfo($curl);
+        $this->curl_errno = curl_errno($curl);
+        $this->curl_error = curl_error($curl);
+
+        curl_close($curl);
 
         return json_decode($output, true);
     }
 
     public function convertArrayToCSV($array)
     {
-        foreach ($array as &$v) {
-            foreach ($v as &$val) {
-                $val = '"'.str_replace('"', '\"', $val).'"';
-            }
+        $replace = function ($str) {
+            return '"'.str_replace('"', '\"', $str).'"';
+        };
 
-            $v = implode(',', $v);
+        foreach ($array as &$v) {
+            if (is_array($v)) {
+                foreach ($v as &$val) {
+                    $val = $replace($val);
+                }
+
+                $v = implode(',', $v);
+            } else {
+                $v = $replace($v);
+            }
         }
 
-        return implode("\n", $array);
+        $this->tmpfile = tmpfile();
+        fwrite($this->tmpfile, implode("\n", $array));
+
+        return stream_get_meta_data($this->tmpfile)['uri'];
     }
 }
