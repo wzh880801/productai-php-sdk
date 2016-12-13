@@ -2,8 +2,9 @@
 
 namespace ProductAI;
 
-use LogicException;
-use RuntimeException;
+use BadMethodCallException;
+use OutOfBoundsException;
+use UnexpectedValueException;
 use CURLFile;
 
 class API extends Base
@@ -15,7 +16,7 @@ class API extends Base
 
             return call_user_func_array([$this, $name], $args);
         } else {
-            throw new LogicException('Call to undefined method '.get_class($this)."::{$name}()");
+            throw new BadMethodCallException('Call to undefined method '.get_class($this)."::{$name}()");
         }
     }
 
@@ -30,13 +31,13 @@ class API extends Base
 
                 if ($prefix == '#') {
                     if (!isset($_FILES[$image])) {
-                        throw new RuntimeException("name $image not found in forms");
+                        throw new OutOfBoundsException("name $image not found in forms");
                     }
 
                     $image = $_FILES[$image]['tmp_name'];
 
                     if (!is_uploaded_file($image)) {
-                        throw new RuntimeException("possible file upload attack: $image");
+                        throw new UnexpectedValueException("possible file upload attack: $image");
                     }
                 }
 

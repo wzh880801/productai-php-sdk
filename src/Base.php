@@ -96,7 +96,7 @@ class Base
 
         $body = [];
         foreach ($this->body as $k => $v) {
-            if (is_string($v)) {
+            if (is_string($v) || is_numeric($v)) {
                 $body[$k] = $v;
             }
         }

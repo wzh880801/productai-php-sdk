@@ -1,0 +1,17 @@
+language: php
+dist: trusty
+php:
+  - '5.5'
+  - '5.6'
+  - '7.0'
+  - '7.1'
+  - nightly
+  - hhvm
+  - hhvm-nightly
+install:
+    - travis_retry composer self-update
+    - travis_retry composer install -n --dev
+script:
+    - vendor/bin/phpunit --bootstrap=tests/config.inc.php --whitelist=src/ --coverage-clover=coverage.xml tests/
+after_success:
+    - bash <(curl -s https://codecov.io/bash)

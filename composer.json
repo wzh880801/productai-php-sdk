@@ -1,20 +1,26 @@
 {
     "name": "malong/productai",
     "description": "Official PHP SDK for ProductAI.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "keywords": ["MaLong", "ProductAI", "SDK"],
     "license": "MIT",
     "homepage": "http://www.productai.cn",
-    "time": "2016-12-06",
+    "time": "2016-12-13",
     "require": {
         "php": ">=5.5.9"
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "*",
+        "phpunit/php-code-coverage": "*"
     },
     "autoload": {
         "psr-4": {
-            "ProductAI\\": "src/ProductAI/"
+            "ProductAI\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ProductAI\\Tests\\": "tests/"
         }
     },
     "authors": [
