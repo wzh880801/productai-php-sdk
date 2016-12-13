@@ -13,6 +13,6 @@ install:
 before_script:
   - openssl aes-256-cbc -K $encrypted_11541e21b8fd_key -iv $encrypted_11541e21b8fd_iv -in tests/config.inc.php.enc -out tests/config.inc.php -d
 script:
-  - vendor/bin/phpunit --bootstrap=tests/config.inc.php --whitelist=src/ --coverage-clover=coverage.xml tests/
+  - travis_retry vendor/bin/phpunit --bootstrap=tests/config.inc.php --whitelist=src/ --coverage-clover=coverage.xml tests/
 after_success:
   - bash <(curl -s https://codecov.io/bash)
