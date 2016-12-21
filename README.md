@@ -22,28 +22,32 @@ $product_ai = new ProductAI\API($access_key_id, $secret_key);
 #### Search image using URL
 
 ```php
-$result = $product_ai->searchImage($service_type, $service_id, $url);
+$result = $product_ai->searchImage($service_type, $service_id, $url, $loc, $count);
 ```
+
+```$loc```: Optional, default is the entire image. An area of the image which you want to search. The format is ```[$x, $y, $w, $h]```.
+
+```$count```: Optional, default is 20. The number of results. Public services do NOT support this argument.
 
 #### Search image using file
 
 ```php
-$result = $product_ai->searchImage($service_type, $service_id, '@'.$filename);
+$result = $product_ai->searchImage($service_type, $service_id, '@'.$filename, $loc, $count);
 ```
 
 #### Search image using form
 
 ```php
-$result = $product_ai->searchImage($service_type, $service_id, '#'.$form_name);
+$result = $product_ai->searchImage($service_type, $service_id, '#'.$form_name, $loc, $count);
 ```
 
-#### Upload image to image set
+#### Upload one image to image set
 
 ```php
 $result = $product_ai->addImageToSet($set_id, $image_url, 'optional meta');
 ```
 
-#### Upload images to image set using URL
+#### Upload images to image set using URLs
 
 ```php
 $result = $product_ai->addImagesToSet($set_id, [
@@ -52,13 +56,13 @@ $result = $product_ai->addImagesToSet($set_id, [
 ]);
 ```
 
-#### Upload images to image set using CSV file
+#### Upload images to image set using a CSV file
 
 ```php
 $result = $product_ai->addImagesToSet($set_id, $filename);
 ```
 
-#### Remove images from image set using URL
+#### Remove images from image set using URLs
 
 ```php
 $result = $product_ai->removeImagesFromSet($set_id, [
@@ -67,7 +71,7 @@ $result = $product_ai->removeImagesFromSet($set_id, [
 ]);
 ```
 
-#### Remove images from image set using CSV file
+#### Remove images from image set using a CSV file
 
 ```php
 $result = $product_ai->removeImagesFromSet($set_id, $filename);

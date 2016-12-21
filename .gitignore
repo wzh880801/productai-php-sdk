@@ -5,3 +5,4 @@ config.inc.php
 coverage.xml
 .tags
 .tags_sorted_by_file
+.idea/

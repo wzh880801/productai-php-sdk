@@ -20,7 +20,7 @@ class API extends Base
         }
     }
 
-    protected function searchImage($service_type, $service_id, $image, $loc = [])
+    protected function searchImage($service_type, $service_id, $image, $loc = [], $count = 20)
     {
         $prefix = substr($image, 0, 1);
 
@@ -54,6 +54,10 @@ class API extends Base
 
         if ($loc) {
             $this->body['loc'] = implode('-', $loc);
+        }
+
+        if ($count) {
+            $this->body['count'] = intval($count);
         }
 
         return $this->curl($service_type, $service_id);
