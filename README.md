@@ -63,7 +63,7 @@ $result = $product_ai->addImagesToSet($set_id, $filename);
 ```php
 $result = $product_ai->removeImagesFromSet($set_id, [
     $image_url_1,
-    $image_url_2,,
+    $image_url_2,
 ]);
 ```
 
