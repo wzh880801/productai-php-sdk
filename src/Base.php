@@ -141,24 +141,15 @@ class Base
 
     public function convertArrayToCSV($array)
     {
-        $replace = function ($str) {
-            return '"'.str_replace('"', '\"', $str).'"';
-        };
-
-        foreach ($array as &$v) {
-            if (is_array($v)) {
-                foreach ($v as &$val) {
-                    $val = $replace($val);
-                }
-
-                $v = implode(',', $v);
-            } else {
-                $v = $replace($v);
-            }
-        }
-
         $this->tmpfile = tmpfile();
-        fwrite($this->tmpfile, implode("\n", $array));
+
+        foreach ($array as $v) {
+            if (!is_array($v)) {
+                $v = [$v];
+            }
+
+            fputcsv($this->tmpfile, $v);
+        }
 
         return stream_get_meta_data($this->tmpfile)['uri'];
     }
