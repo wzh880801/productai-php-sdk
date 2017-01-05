@@ -4,7 +4,7 @@ namespace ProductAI;
 
 class Base
 {
-    const VERSION = '0.0.2';
+    const VERSION = '0.0.4';
     const API = 'https://api.productai.cn';
 
     protected $access_key_id;
@@ -13,14 +13,6 @@ class Base
     public $method;
     public $headers;
     public $body;
-
-    public $headers2sign = [
-        'x-ca-version',
-        'x-ca-accesskeyid',
-        'x-ca-timestamp',
-        'x-ca-signaturenonce',
-        'requestmethod',
-    ];
 
     public $curl_opt;
     public $curl_info;
@@ -87,12 +79,8 @@ class Base
 
     public function signRequests()
     {
-        $headers = [];
-        foreach ($this->headers as $k => $v) {
-            if (in_array($k, $this->headers2sign)) {
-                $headers[$k] = $v;
-            }
-        }
+        $headers = $this->headers;
+        unset($headers['user-agent'], $headers['x-ca-file-md5']);
 
         $body = [];
         foreach ($this->body as $k => $v) {
@@ -144,8 +132,11 @@ class Base
         $this->tmpfile = tmpfile();
 
         foreach ($array as $v) {
-            if (!is_array($v)) {
-                $v = [$v];
+            $v = is_array($v) ? array_values($v) : [$v];
+
+            // tags
+            if (isset($v[2]) && is_array($v[2])) {
+                $v[2] = implode('|', $v[2]);
             }
 
             fputcsv($this->tmpfile, $v);

@@ -20,7 +20,7 @@ class API extends Base
         }
     }
 
-    protected function searchImage($service_type, $service_id, $image, $loc = [], $count = 20)
+    protected function searchImage($service_type, $service_id, $image, $loc = [], $tags = [], $count = 20, $threshold = 0)
     {
         $prefix = substr($image, 0, 1);
 
@@ -56,8 +56,16 @@ class API extends Base
             $this->body['loc'] = implode('-', $loc);
         }
 
+        if ($tags) {
+            $this->body['tags'] = implode('|', $loc);
+        }
+
         if ($count) {
             $this->body['count'] = intval($count);
+        }
+
+        if ($threshold && is_numeric($threshold)) {
+            $this->body['threshold'] = $threshold;
         }
 
         return $this->curl($service_type, $service_id);
@@ -80,12 +88,16 @@ class API extends Base
     }
     */
 
-    protected function addImageToSet($set_id, $image_url, $meta = '')
+    protected function addImageToSet($set_id, $image_url, $meta = '', $tags = [])
     {
         $this->body['image_url'] = $image_url;
 
         if ($meta) {
             $this->body['meta'] = $meta;
+        }
+
+        if ($tags) {
+            $this->body['tags'] = implode('|', $tags);
         }
 
         return $this->curl('image_sets', "_0000014/$set_id");
