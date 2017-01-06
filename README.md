@@ -33,7 +33,7 @@ $result = $product_ai->searchImage($service_type, $service_id, $url, $loc, $tags
 
 ```$count```: Optional, default is 20. The number of results that between 0 and 100. Public services do NOT support this argument.
 
-```$threshold```: Optional, default is 0. A threshold value that between 0 and 1. Do NOT Recommend to set this argument.
+```$threshold```: Optional, default is 0. A threshold value that between 0 and 1. Set up this argument is NOT recommended.
 
 #### Search image using file
 
