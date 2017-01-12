@@ -41,6 +41,12 @@ class APITest extends TestCase
         $this->assertEquals(0, $result['is_err']);
     }
 
+    public function testSearchImageByString()
+    {
+        $result = $this->product_ai->searchImage('classify_sleeve', '_0000002', file_get_contents(__DIR__.'/test.jpg'));
+        $this->assertEquals(0, $result['is_err']);
+    }
+
     public function testSearchImageByForm()
     {
         $this->expectException('OutOfBoundsException');

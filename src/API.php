@@ -47,7 +47,15 @@ class API extends Base
                 break;
 
             default:
-                $this->body['url'] = $image;
+                if (substr($image, 0, 4) == 'http' || substr($image, 0, 3) == 'ftp') {
+                    $this->body['url'] = $image;
+                } else {
+                    $this->tmpfile = tmpfile();
+                    fwrite($this->tmpfile, $image);
+
+                    $this->headers['x-ca-file-md5'] = md5($image);
+                    $this->body['search'] = new CURLFile(stream_get_meta_data($this->tmpfile)['uri']);
+                }
 
                 break;
         }
@@ -57,7 +65,7 @@ class API extends Base
         }
 
         if ($tags) {
-            $this->body['tags'] = implode('|', $loc);
+            $this->body['tags'] = implode('|', $tags);
         }
 
         if ($count) {

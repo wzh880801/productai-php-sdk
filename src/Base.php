@@ -4,7 +4,7 @@ namespace ProductAI;
 
 class Base
 {
-    const VERSION = '0.0.4';
+    const VERSION = '0.0.5';
     const API = 'https://api.productai.cn';
 
     protected $access_key_id;
@@ -18,8 +18,9 @@ class Base
     public $curl_info;
     public $curl_errno;
     public $curl_error;
+    public $curl_output;
 
-    public $tmpfile;
+    protected $tmpfile;
 
     public function __construct($access_key_id, $secret_key)
     {
@@ -47,6 +48,22 @@ class Base
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 30,
         ];
+
+        $this->batchSetProperties([
+            'curl_info',
+            'curl_errno',
+            'curl_error',
+            'curl_output',
+
+            'tmpfile',
+        ], null);
+    }
+
+    protected function batchSetProperties($properties, $value)
+    {
+        foreach ($properties as $v) {
+            $this->$v = $value;
+        }
     }
 
     public static function version()
@@ -116,7 +133,7 @@ class Base
 
         curl_setopt_array($curl, $this->curl_opt);
 
-        $output = curl_exec($curl);
+        $this->curl_output = curl_exec($curl);
 
         $this->curl_info = curl_getinfo($curl);
         $this->curl_errno = curl_errno($curl);
@@ -124,7 +141,11 @@ class Base
 
         curl_close($curl);
 
-        return json_decode($output, true);
+        if (isset($this->tmpfile)) {
+            fclose($this->tmpfile);
+        }
+
+        return json_decode($this->curl_output, true);
     }
 
     public function convertArrayToCSV($array)
