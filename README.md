@@ -41,6 +41,12 @@ $result = $product_ai->searchImage($service_type, $service_id, $url, $loc, $tags
 $result = $product_ai->searchImage($service_type, $service_id, '@'.$filename, $loc, $tags, $count, $threshold);
 ```
 
+#### Search image using raw image
+
+```php
+$result = $product_ai->searchImage($service_type, $service_id, file_get_contents($filename), $loc, $tags, $count, $threshold);
+```
+
 #### Search image using form
 
 ```php
