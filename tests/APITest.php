@@ -55,13 +55,13 @@ class APITest extends TestCase
 
     public function testClassifyImage()
     {
-        $result = $this->product_ai->classifyImage('classify_sleeve', '_0000002', '@'.__DIR__.'/test.jpg');
+        $result = $this->product_ai->classifyImage('classify_sleeve', '_0000002', 'http://www.sinaimg.cn/dy/slidenews/24_img/2013_13/40223_662671_794351.jpg');
         $this->assertEquals(0, $result['is_err']);
     }
 
     public function testDetectImage()
     {
-        $result = $this->product_ai->detectImage('detect_cloth', '_0000025', '@'.__DIR__.'/test.jpg');
+        $result = $this->product_ai->detectImage('detect_cloth', '_0000025', 'http://www.wed114.cn/jiehun/uploads/allimg/c130401/1364P42Q140-49539.jpg');
         $this->assertArrayNotHasKey('is_err', $result);
     }
 
