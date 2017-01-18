@@ -62,7 +62,7 @@ class APITest extends TestCase
     public function testDetectImage()
     {
         $result = $this->product_ai->detectImage('detect_cloth', '_0000025', '@'.__DIR__.'/test.jpg');
-        $this->assertEquals(0, $result['is_err']);
+        $this->assertArrayNotHasKey('is_err', $result);
     }
 
     public function testAddImageToSet()
