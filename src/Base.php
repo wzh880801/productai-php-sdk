@@ -4,7 +4,7 @@ namespace ProductAI;
 
 class Base
 {
-    const VERSION = '0.0.5';
+    const VERSION = '0.0.6';
     const API = 'https://api.productai.cn';
 
     protected $access_key_id;

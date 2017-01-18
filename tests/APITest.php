@@ -53,6 +53,18 @@ class APITest extends TestCase
         $this->product_ai->searchImage('classify_color', '_0000003', '#test');
     }
 
+    public function testClassifyImage()
+    {
+        $result = $this->product_ai->classifyImage('classify_sleeve', '_0000002', '@'.__DIR__.'/test.jpg');
+        $this->assertEquals(0, $result['is_err']);
+    }
+
+    public function testDetectImage()
+    {
+        $result = $this->product_ai->detectImage('detect_cloth', '_0000025', '@'.__DIR__.'/test.jpg');
+        $this->assertEquals(0, $result['is_err']);
+    }
+
     public function testAddImageToSet()
     {
         $result = $this->product_ai->addImageToSet(IMAGE_SET_ID, 'http://www.wed114.cn/jiehun/uploads/allimg/c130401/1364P42Q140-49539.jpg', 'test image', [

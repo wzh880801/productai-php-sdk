@@ -79,6 +79,16 @@ class API extends Base
         return $this->curl($service_type, $service_id);
     }
 
+    protected function classifyImage($service_type, $service_id, $image, $loc)
+    {
+        return $this->searchImage($service_type, $service_id, $image, $loc);
+    }
+
+    protected function detectImage($service_type, $service_id, $image, $loc)
+    {
+        return $this->searchImage($service_type, $service_id, $image, $loc);
+    }
+
     /*
     protected function addImageSet($name, $description = '')
     {
