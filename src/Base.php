@@ -47,6 +47,7 @@ class Base
         $this->curl_opt = [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 30,
+            CURLOPT_CAINFO => __DIR__.'/ca.pem',
         ];
 
         $this->batchSetProperties([
