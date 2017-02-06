@@ -142,7 +142,7 @@ composer require malong/productai
 
 ### 使用
 
-#### 初始化，
+#### 初始化
 
 ```php
 use ProductAI;

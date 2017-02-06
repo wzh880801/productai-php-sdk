@@ -22,7 +22,7 @@ class APITest extends TestCase
 
     public function testSearchImageByURL()
     {
-        $result = $this->product_ai->searchImage('classify_fashion', '_0000001',
+        $result = $this->product_ai->searchImage(SERVICE_TYPE_SEARCH, SERVICE_ID_SEARCH,
             'http://www.sinaimg.cn/dy/slidenews/24_img/2013_13/40223_662671_794351.jpg', [], [
                 '长靴',
                 '针织衫',
@@ -35,7 +35,7 @@ class APITest extends TestCase
 
     public function testSearchImageByFile()
     {
-        $result = $this->product_ai->searchImage('classify_sleeve', '_0000002', '@'.__DIR__.'/test.jpg', [
+        $result = $this->product_ai->searchImage(SERVICE_TYPE_SEARCH, SERVICE_ID_SEARCH, '@'.__DIR__.'/test.jpg', [
             0.5, 0.2, 0.8, 0.6
         ], [], 10, 0);
         $this->assertEquals(0, $result['is_err']);
@@ -43,25 +43,25 @@ class APITest extends TestCase
 
     public function testSearchImageByString()
     {
-        $result = $this->product_ai->searchImage('classify_sleeve', '_0000002', file_get_contents(__DIR__.'/test.jpg'));
+        $result = $this->product_ai->searchImage(SERVICE_TYPE_SEARCH, SERVICE_ID_SEARCH, file_get_contents(__DIR__.'/test.jpg'));
         $this->assertEquals(0, $result['is_err']);
     }
 
     public function testSearchImageByForm()
     {
         $this->expectException('OutOfBoundsException');
-        $this->product_ai->searchImage('classify_color', '_0000003', '#test');
+        $this->product_ai->searchImage(SERVICE_TYPE_SEARCH, SERVICE_ID_SEARCH, '#test');
     }
 
     public function testClassifyImage()
     {
-        $result = $this->product_ai->classifyImage('classify_sleeve', '_0000002', 'http://www.sinaimg.cn/dy/slidenews/24_img/2013_13/40223_662671_794351.jpg');
+        $result = $this->product_ai->classifyImage(SERVICE_TYPE_CLASSIFY, SERVICE_ID_CLASSIFY, 'http://www.sinaimg.cn/dy/slidenews/24_img/2013_13/40223_662671_794351.jpg');
         $this->assertEquals(0, $result['is_err']);
     }
 
     public function testDetectImage()
     {
-        $result = $this->product_ai->detectImage('detect_cloth', '_0000025', 'http://www.wed114.cn/jiehun/uploads/allimg/c130401/1364P42Q140-49539.jpg');
+        $result = $this->product_ai->detectImage(SERVICE_TYPE_DETECT, SERVICE_ID_DETECT, 'http://www.wed114.cn/jiehun/uploads/allimg/c130401/1364P42Q140-49539.jpg');
         $this->assertArrayNotHasKey('is_err', $result);
     }
 
