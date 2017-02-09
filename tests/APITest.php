@@ -30,7 +30,7 @@ class APITest extends TestCase
                 '牛仔裤',
                 '打底裤',
             ], 20, 0.8);
-        $this->assertEquals(0, $result['is_err']);
+        $this->assertArrayHasKey('results', $result);
     }
 
     public function testSearchImageByFile()
@@ -38,13 +38,13 @@ class APITest extends TestCase
         $result = $this->product_ai->searchImage(SERVICE_TYPE_SEARCH, SERVICE_ID_SEARCH, '@'.__DIR__.'/test.jpg', [
             0.5, 0.2, 0.8, 0.6
         ], [], 10, 0);
-        $this->assertEquals(0, $result['is_err']);
+        $this->assertArrayHasKey('results', $result);
     }
 
     public function testSearchImageByString()
     {
         $result = $this->product_ai->searchImage(SERVICE_TYPE_SEARCH, SERVICE_ID_SEARCH, file_get_contents(__DIR__.'/test.jpg'));
-        $this->assertEquals(0, $result['is_err']);
+        $this->assertArrayHasKey('results', $result);
     }
 
     public function testSearchImageByForm()

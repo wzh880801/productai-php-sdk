@@ -5,7 +5,7 @@
     "keywords": ["MaLong", "ProductAI", "SDK"],
     "license": "MIT",
     "homepage": "http://www.productai.cn",
-    "time": "2017-01-18",
+    "time": "2017-02-09",
     "require": {
         "php": ">=5.6"
     },
