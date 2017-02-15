@@ -2,6 +2,8 @@
 
 namespace ProductAI;
 
+use Exception;
+
 class Base
 {
     const VERSION = '0.1.0';
@@ -146,12 +148,30 @@ class Base
             fclose($this->tmpfile);
         }
 
-        return json_decode($this->curl_output, true);
+        if ($this->curl_errno !== 0) {
+            throw new Exception("Request failed. $this->curl_error", $this->curl_errno);
+        }
+
+        $result = json_decode($this->curl_output, true);
+
+        if ($this->curl_info['http_code'] !== 200) {
+            throw new Exception('API thrown an error. ' . (isset($result['message']) ? $result['message'] : $this->curl_output), $this->curl_info['http_code']);
+        }
+
+        if ($result === null) {
+            throw new Exception("Decode result error. The original output is '$this->curl_output'.", 1);
+        }
+
+        return $result;
     }
 
     public function convertArrayToCSV($array)
     {
         $this->tmpfile = tmpfile();
+
+        if ($this->tmpfile === false) {
+            throw new Exception('Can not create temporary file.', 1);
+        }
 
         foreach ($array as $v) {
             $v = is_array($v) ? array_values($v) : [$v];
