@@ -12,6 +12,7 @@ class APITest extends TestCase
     public function setUp()
     {
         $this->product_ai = new API(ACCESS_KEY_ID, SECRET_KEY);
+        $this->product_ai->curl_opt[CURLOPT_TIMEOUT] = 120;
     }
 
     public function testBadMethodCall()
