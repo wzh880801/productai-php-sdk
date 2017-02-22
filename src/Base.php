@@ -30,6 +30,12 @@ class Base
         $this->secret_key = $secret_key;
 
         $this->initialize();
+
+        $this->curl_opt = [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_CAINFO => __DIR__.'/ca.pem',
+        ];
     }
 
     public function initialize()
@@ -45,12 +51,6 @@ class Base
         ];
 
         $this->body = [];
-
-        $this->curl_opt = [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_CAINFO => __DIR__.'/ca.pem',
-        ];
 
         $this->batchSetProperties([
             'curl_info',
@@ -129,10 +129,7 @@ class Base
         }
 
         $this->curl_opt[CURLOPT_HTTPHEADER] = $headers;
-
-        if ($this->body) {
-            $this->curl_opt[CURLOPT_POSTFIELDS] = $this->body;
-        }
+        $this->curl_opt[CURLOPT_POSTFIELDS] = $this->body ?: null;
 
         curl_setopt_array($curl, $this->curl_opt);
 
