@@ -65,7 +65,7 @@ class API extends Base
         }
 
         if ($tags) {
-            $this->body['tags'] = implode('|', $tags);
+            $this->body['tags'] = is_array($tags[0]) ? json_encode($tags) : implode('|', $tags);
         }
 
         if ($count) {

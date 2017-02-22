@@ -6,7 +6,7 @@ use Exception;
 
 class Base
 {
-    const VERSION = '0.1.0';
+    const VERSION = '0.1.1';
     const API = 'https://api.productai.cn';
 
     protected $access_key_id;
