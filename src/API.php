@@ -61,11 +61,15 @@ class API extends Base
         }
 
         if ($loc) {
-            $this->body['loc'] = implode('-', $loc);
+            $this->body['loc'] = is_array($loc) ? implode('-', $loc) : $loc;
         }
 
         if ($tags) {
-            $this->body['tags'] = is_array(reset($tags)) ? json_encode($tags) : implode('|', $tags);
+            if (is_array($tags)) {
+                $this->body['tags'] = is_array(reset($tags)) ? json_encode($tags) : implode('|', $tags);
+            } else {
+                $this->body['tags'] = $tags;
+            }
         }
 
         if ($count) {
