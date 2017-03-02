@@ -20,7 +20,7 @@ class API extends Base
         }
     }
 
-    protected function searchImage($service_type, $service_id, $image, $loc = [], $tags = [], $count = 20, $threshold = 0)
+    protected function searchImage($service_type, $service_id, $image, $loc = [], $tags = [], $count = 20, $threshold = 0.0)
     {
         $prefix = substr($image, 0, 1);
 
