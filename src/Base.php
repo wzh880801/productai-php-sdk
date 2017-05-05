@@ -100,7 +100,7 @@ class Base
     public function signRequests()
     {
         $headers = $this->headers;
-        unset($headers['user-agent'], $headers['x-ca-file-md5']);
+        unset($headers['user-agent']);
 
         $body = [];
         foreach ($this->body as $k => $v) {

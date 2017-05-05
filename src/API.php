@@ -41,7 +41,6 @@ class API extends Base
                     }
                 }
 
-                $this->headers['x-ca-file-md5'] = md5_file($image);
                 $this->body['search'] = new CURLFile($image);
 
                 break;
@@ -53,7 +52,6 @@ class API extends Base
                     $this->tmpfile = tmpfile();
                     fwrite($this->tmpfile, $image);
 
-                    $this->headers['x-ca-file-md5'] = md5($image);
                     $this->body['search'] = new CURLFile(stream_get_meta_data($this->tmpfile)['uri']);
                 }
 

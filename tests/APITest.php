@@ -37,7 +37,7 @@ class APITest extends TestCase
     public function testSearchImageByFile()
     {
         $result = $this->product_ai->searchImage(SERVICE_TYPE_SEARCH, SERVICE_ID_SEARCH, '@'.__DIR__.'/test.jpg', [
-            0.5, 0.2, 0.8, 0.6
+            0.1, 0.2, 0.8, 0.6
         ], [], 10, 0);
         $this->assertArrayHasKey('results', $result);
     }
