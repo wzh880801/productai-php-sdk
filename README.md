@@ -11,10 +11,6 @@
 composer require malong/productai
 ```
 
-### Attention
-
-The code and arguments in the ```tests``` directory are NOT examples but unit testing only. Please set the arguments according to your usage scenarios.
-
 ### Usage
 
 #### Initialize
@@ -150,7 +146,6 @@ Run tests:
 ```shell
 vendor/bin/phpunit --bootstrap=tests/config.inc.php tests/
 ```
-
 
 ## 中文说明
 
