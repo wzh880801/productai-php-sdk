@@ -147,7 +147,7 @@ $result = $product_ai->removeImagesFromSet($set_id, [
 
 ```php
 $result = $product_ai->removeImagesFromSet($set_id, $filename);
-
+```
 
 ## 中文说明
 
