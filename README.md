@@ -1,17 +1,16 @@
-## ProductAI SDK for PHP
+## ProductAI® SDK for PHP
 
 [![Latest Stable Version](https://poser.pugx.org/malong/productai/v/stable)](https://packagist.org/packages/malong/productai)
 [![License](https://img.shields.io/github/license/MalongTech/productai-php-sdk.svg)](https://github.com/MalongTech/productai-php-sdk/blob/master/LICENSE)
 [![Travis CI Build Status](https://travis-ci.org/MalongTech/productai-php-sdk.svg?branch=master)](https://travis-ci.org/MalongTech/productai-php-sdk)
 [![Code Coverage](https://codecov.io/gh/MalongTech/productai-php-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/MalongTech/productai-php-sdk)
 
-ProductAI® SDKs enable using ProductAI® APIs easily in the programming languege of your choice. You can use our PHP SDKs to send image queries and maintain your datasets.
+ProductAI® SDKs enable using ProductAI® APIs easily in the programming languege of your choice. You can use our PHP SDK to send image queries and maintain your datasets.
 
 ### Install
 
 ```shell
 composer require malong/productai
-```
 ```
 
 ### Testing
@@ -152,7 +151,7 @@ $result = $product_ai->removeImagesFromSet($set_id, $filename);
 
 ## 中文说明
 
-ProductAI® SDK提供了API请求封装与签名验证功能，用户可以轻松使用PHP代码完成API的调用。
+ProductAI® SDK 提供了 API 请求封装与签名验证功能，用户可以轻松使用 PHP SDK 完成 API 的调用。
 
 ### 安装
 
@@ -297,5 +296,3 @@ $result = $product_ai->removeImagesFromSet($set_id, [
 ```php
 $result = $product_ai->removeImagesFromSet($set_id, $filename);
 ```
-
-
