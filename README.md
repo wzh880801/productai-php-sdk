@@ -5,6 +5,8 @@
 [![Travis CI Build Status](https://travis-ci.org/MalongTech/productai-php-sdk.svg?branch=master)](https://travis-ci.org/MalongTech/productai-php-sdk)
 [![Code Coverage](https://codecov.io/gh/MalongTech/productai-php-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/MalongTech/productai-php-sdk)
 
+ProductAI® SDKs enable using ProductAI® APIs easily in the programming languege of your choice. You can use our PHP SDKs to send image queries and maintain your datasets.
+
 ### Install
 
 ```shell
@@ -148,6 +150,48 @@ vendor/bin/phpunit --bootstrap=tests/config.inc.php tests/
 ```
 
 ## 中文说明
+
+
+翻译文档
+Kai Fu
+今天, 12:31Chi Zhang;Alan Zhu
+
+Hi Chi & Alan，
+
+       附件内是我们SDK与各个服务的翻译文档。
+
+1． SDK.txt是SDK的介绍文字，请驰哥处理。
+
+2． 服务列表.xlsx内是各个服务名称、场景名称、分类名称的翻译，请朱威更新到对应的国际版数据栏位中。
+
+3． Brochure文档中的Description of the service是各个服务的英文版服务介绍文字，请朱威更新到国际版数据栏位中。
+
+有任何问题请与我联系，谢谢！
+
+ 
+
+Kai
+翻译文档
+Kai Fu
+今天, 12:31Chi Zhang;Alan Zhu
+
+Hi Chi & Alan，
+
+       附件内是我们SDK与各个服务的翻译文档。
+
+1． SDK.txt是SDK的介绍文字，请驰哥处理。
+
+2． 服务列表.xlsx内是各个服务名称、场景名称、分类名称的翻译，请朱威更新到对应的国际版数据栏位中。
+
+3． Brochure文档中的Description of the service是各个服务的英文版服务介绍文字，请朱威更新到国际版数据栏位中。
+
+有任何问题请与我联系，谢谢！
+
+ 
+
+Kai
+
+ProductAI® SDK提供了API请求封装与签名验证功能，用户可以轻松使用Java/Python/PHP/C#代码完成API的调用。
 
 ### 安装
 
