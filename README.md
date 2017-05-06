@@ -12,6 +12,32 @@ ProductAI® SDKs enable using ProductAI® APIs easily in the programming langueg
 ```shell
 composer require malong/productai
 ```
+```
+
+### Testing
+
+Create a file named ```tests/config.inc.php``` and define constants as follows:
+
+```php
+<?php
+
+define('ACCESS_KEY_ID', '');
+define('SECRET_KEY', '');
+define('IMAGE_SET_ID', '');
+
+define('SERVICE_TYPE_SEARCH', '');
+define('SERVICE_ID_SEARCH', '');
+define('SERVICE_TYPE_CLASSIFY', '');
+define('SERVICE_ID_CLASSIFY', '');
+define('SERVICE_TYPE_DETECT', '');
+define('SERVICE_ID_DETECT', '');
+```
+
+Run tests:
+
+```shell
+vendor/bin/phpunit --bootstrap=tests/config.inc.php tests/
+```
 
 ### Usage
 
@@ -122,11 +148,23 @@ $result = $product_ai->removeImagesFromSet($set_id, [
 
 ```php
 $result = $product_ai->removeImagesFromSet($set_id, $filename);
+
+
+## 中文说明
+
+ProductAI® SDK提供了API请求封装与签名验证功能，用户可以轻松使用PHP代码完成API的调用。
+
+### 安装
+
+推荐中国大陆用户使用[国内镜像](https://pkg.phpcomposer.com)。
+
+```shell
+composer require malong/productai
 ```
 
-### Testing
+### 测试
 
-Create a file named ```tests/config.inc.php``` and define constants as follows:
+创建文件 ```tests/config.inc.php``` 并定义如下常量：
 
 ```php
 <?php
@@ -143,22 +181,10 @@ define('SERVICE_TYPE_DETECT', '');
 define('SERVICE_ID_DETECT', '');
 ```
 
-Run tests:
+运行测试：
 
 ```shell
 vendor/bin/phpunit --bootstrap=tests/config.inc.php tests/
-```
-
-## 中文说明
-
-ProductAI® SDK提供了API请求封装与签名验证功能，用户可以轻松使用PHP代码完成API的调用。
-
-### 安装
-
-推荐中国大陆用户使用[国内镜像](https://pkg.phpcomposer.com)。
-
-```shell
-composer require malong/productai
 ```
 
 ### 使用
@@ -272,27 +298,4 @@ $result = $product_ai->removeImagesFromSet($set_id, [
 $result = $product_ai->removeImagesFromSet($set_id, $filename);
 ```
 
-### 测试
 
-创建文件 ```tests/config.inc.php``` 并定义如下常量：
-
-```php
-<?php
-
-define('ACCESS_KEY_ID', '');
-define('SECRET_KEY', '');
-define('IMAGE_SET_ID', '');
-
-define('SERVICE_TYPE_SEARCH', '');
-define('SERVICE_ID_SEARCH', '');
-define('SERVICE_TYPE_CLASSIFY', '');
-define('SERVICE_ID_CLASSIFY', '');
-define('SERVICE_TYPE_DETECT', '');
-define('SERVICE_ID_DETECT', '');
-```
-
-运行测试：
-
-```shell
-vendor/bin/phpunit --bootstrap=tests/config.inc.php tests/
-```
