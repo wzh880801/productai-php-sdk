@@ -9,7 +9,7 @@ class APITest extends TestCase
 {
     private $product_ai;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->product_ai = new API(ACCESS_KEY_ID, SECRET_KEY);
         $this->product_ai->curl_opt[CURLOPT_TIMEOUT] = 120;
@@ -114,5 +114,11 @@ class APITest extends TestCase
             'http://www.people.com.cn/mediafile/pic/20130924/54/1190700219959357062.jpg',
         ]);
         $this->assertArrayNotHasKey('error_code', $result);
+    }
+
+    public function testImageColorAnalysis()
+    {
+        $result = $this->product_ai->imageColorAnalysis(file_get_contents(__DIR__.'/test.jpg'), 'person_outfit', 'major', 'basic');
+        $this->assertArrayHasKey('results', $result);
     }
 }

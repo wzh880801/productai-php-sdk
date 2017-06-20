@@ -3,14 +3,17 @@
 namespace ProductAI;
 
 use Exception;
+use OutOfBoundsException;
+use UnexpectedValueException;
+use CURLFile;
 
 class Base
 {
-    const VERSION = '0.1.3';
+    const VERSION = '0.2.0';
     const API = 'https://api.productai.cn';
 
-    protected $access_key_id;
-    protected $secret_key;
+    private $access_key_id;
+    private $secret_key;
 
     public $method;
     public $headers;
@@ -22,7 +25,7 @@ class Base
     public $curl_error;
     public $curl_output;
 
-    protected $tmpfile;
+    private $tmpfile;
 
     public function __construct($access_key_id, $secret_key)
     {
@@ -38,7 +41,7 @@ class Base
         ];
     }
 
-    public function initialize()
+    protected function initialize()
     {
         $this->method = 'POST';
 
@@ -62,7 +65,7 @@ class Base
         ], null);
     }
 
-    protected function batchSetProperties($properties, $value)
+    private function batchSetProperties($properties, $value)
     {
         foreach ($properties as $v) {
             $this->$v = $value;
@@ -79,7 +82,7 @@ class Base
         return static::API;
     }
 
-    public function generateNonce($len, $chars = '')
+    private function generateNonce($len, $chars = '')
     {
         if (!$chars) {
             $chars = array_merge(range('a', 'z'), range('A', 'Z'), range(0, 9));
@@ -97,7 +100,7 @@ class Base
         return $nonce;
     }
 
-    public function signRequests()
+    private function signRequests()
     {
         $headers = $this->headers;
         unset($headers['user-agent']);
@@ -115,7 +118,7 @@ class Base
         return base64_encode(hash_hmac('sha1', urldecode(http_build_query($requests)), $this->secret_key, true));
     }
 
-    public function curl($service_type, $service_id)
+    protected function curl($service_type, $service_id)
     {
         $curl = curl_init("{$this->api()}/$service_type/$service_id");
 
@@ -162,7 +165,7 @@ class Base
         return $result;
     }
 
-    public function convertArrayToCSV($array)
+    protected function convertArrayToCSV($array)
     {
         $this->tmpfile = tmpfile();
 
@@ -182,5 +185,45 @@ class Base
         }
 
         return stream_get_meta_data($this->tmpfile)['uri'];
+    }
+
+    protected function loadImage($image)
+    {
+        $prefix = substr($image, 0, 1);
+
+        switch ($prefix) {
+            case '#':
+            case '@':
+                $image = substr($image, 1);
+
+                if ($prefix == '#') {
+                    if (!isset($_FILES[$image])) {
+                        throw new OutOfBoundsException("name $image not found in forms", 1);
+                    }
+
+                    $image = $_FILES[$image]['tmp_name'];
+
+                    if (!is_uploaded_file($image)) {
+                        throw new UnexpectedValueException("possible file upload attack: $image", 1);
+                    }
+                }
+
+                $this->body['search'] = new CURLFile($image);
+
+                break;
+
+            default:
+                if (substr($image, 0, 4) == 'http' || substr($image, 0, 3) == 'ftp') {
+                    $this->body['url']
+                        = $image;
+                } else {
+                    $this->tmpfile = tmpfile();
+                    fwrite($this->tmpfile, $image);
+
+                    $this->body['search'] = new CURLFile(stream_get_meta_data($this->tmpfile)['uri']);
+                }
+
+                break;
+        }
     }
 }

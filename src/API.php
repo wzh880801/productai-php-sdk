@@ -3,8 +3,6 @@
 namespace ProductAI;
 
 use BadMethodCallException;
-use OutOfBoundsException;
-use UnexpectedValueException;
 use CURLFile;
 
 class API extends Base
@@ -22,41 +20,7 @@ class API extends Base
 
     protected function searchImage($service_type, $service_id, $image, $loc = [], $tags = [], $count = 20, $threshold = 0.0)
     {
-        $prefix = substr($image, 0, 1);
-
-        switch ($prefix) {
-            case '#':
-            case '@':
-                $image = substr($image, 1);
-
-                if ($prefix == '#') {
-                    if (!isset($_FILES[$image])) {
-                        throw new OutOfBoundsException("name $image not found in forms", 1);
-                    }
-
-                    $image = $_FILES[$image]['tmp_name'];
-
-                    if (!is_uploaded_file($image)) {
-                        throw new UnexpectedValueException("possible file upload attack: $image", 1);
-                    }
-                }
-
-                $this->body['search'] = new CURLFile($image);
-
-                break;
-
-            default:
-                if (substr($image, 0, 4) == 'http' || substr($image, 0, 3) == 'ftp') {
-                    $this->body['url'] = $image;
-                } else {
-                    $this->tmpfile = tmpfile();
-                    fwrite($this->tmpfile, $image);
-
-                    $this->body['search'] = new CURLFile(stream_get_meta_data($this->tmpfile)['uri']);
-                }
-
-                break;
-        }
+        $this->loadImage($image);
 
         if ($loc) {
             $this->body['loc'] = is_array($loc) ? implode('-', $loc) : $loc;
@@ -154,5 +118,62 @@ class API extends Base
         $this->body['urls_to_delete'] = new CURLFile($images);
 
         return $this->curl('image_sets', "_0000014/$set_id");
+    }
+
+    protected function imageColorAnalysis($image, $type, $granularity, $return_type, $loc = [])
+    {
+        $this->loadImage($image);
+
+        switch ($type) {
+            case 'everything':
+                $service_type = 'image_analysis_everything';
+                $service_id = '_0000072';
+
+                break;
+
+            case 'foreground':
+                $service_type = 'image_analysis_foreground';
+                $service_id = '_0000073';
+
+                break;
+
+            case 'person_outfit':
+                $service_type = 'image_analysis_person_outfit';
+                $service_id = '_0000074';
+
+                break;
+
+            default:
+                throw new BadMethodCallException('Bad type.', 1);
+        }
+
+        if (!in_array($granularity, array('major', 'detailed', 'dominant'))) {
+            throw new BadMethodCallException('Bad granularity.', 1);
+        }
+        $this->body['granularity'] = $granularity;
+
+        if (!in_array($return_type, array('basic', 'w3c', 'ncs', 'cncs'))) {
+            throw new BadMethodCallException('Bad return type.', 1);
+        }
+        $this->body['return_type'] = $return_type;
+
+        if ($loc) {
+            $this->body['loc'] = is_array($loc) ? implode('-', $loc) : $loc;
+        }
+
+        return $this->curl($service_type, $service_id);
+    }
+
+    protected function generalRequest($service_type, $service_id, $image = null, $args = [])
+    {
+        if ($image !== null) {
+            $this->loadImage($image);
+        }
+
+        if ($args) {
+            $this->body += $args;
+        }
+
+        return $this->curl($service_type, $service_id);
     }
 }

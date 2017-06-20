@@ -126,6 +126,17 @@ $result = $product_ai->removeImagesFromSet($set_id, [
 $result = $product_ai->removeImagesFromSet($set_id, $filename);
 ```
 
+#### Image color analysis
+
+```php
+$result = $product_ai->imageColorAnalysis($image, $type, $granularity, $return_type, $loc);
+```
+
+```$type```: Analysis type. ```everything``` all colors on the whole image, ```foreground``` foreground colors or ```person_outfit``` the colors of person outfit.
+```$granularity```: Analysis granularity. ```major``` major colors, ```detailed``` detailed colors or ```dominant``` the dominant color.
+```$return_type```: The return type of colors. ```basic```, ```w3c```, ```ncs``` or ```cncs```.
+```$loc```: Optional.
+
 ### Testing
 
 Create a file named ```tests/config.inc.php``` and define constants as follows:
@@ -272,6 +283,17 @@ $result = $product_ai->removeImagesFromSet($set_id, [
 ```php
 $result = $product_ai->removeImagesFromSet($set_id, $filename);
 ```
+
+#### 图片色彩分析
+
+```php
+$result = $product_ai->imageColorAnalysis($image, $type, $granularity, $return_type, $loc);
+```
+
+```$type```: 分析类型，```everything``` 全图颜色、```foreground``` 前景颜色 或 ```person_outfit``` 人物服饰颜色。
+```$granularity```: 分析粒度，```major``` 主要颜色、```detailed``` 所有颜色 或 ```dominant``` 最显著单色。
+```$return_type```: 返回颜色类型，```basic```、```w3c```、```ncs``` 或 ```cncs```。
+```$loc```: 可选。
 
 ### 测试
 
