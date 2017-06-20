@@ -1,9 +1,11 @@
-## ProductAI SDK for PHP
+## ProductAI® SDK for PHP
 
 [![Latest Stable Version](https://poser.pugx.org/malong/productai/v/stable)](https://packagist.org/packages/malong/productai)
 [![License](https://img.shields.io/github/license/MalongTech/productai-php-sdk.svg)](https://github.com/MalongTech/productai-php-sdk/blob/master/LICENSE)
 [![Travis CI Build Status](https://travis-ci.org/MalongTech/productai-php-sdk.svg?branch=master)](https://travis-ci.org/MalongTech/productai-php-sdk)
 [![Code Coverage](https://codecov.io/gh/MalongTech/productai-php-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/MalongTech/productai-php-sdk)
+
+ProductAI® SDKs enable using ProductAI® APIs easily in the programming languege of your choice. You can use our PHP SDK to send image queries and maintain your datasets.
 
 ### Install
 
@@ -11,9 +13,30 @@
 composer require malong/productai
 ```
 
-### Attention
+### Testing
 
-The code and arguments in the ```tests``` directory are NOT examples but unit testing only. Please set the arguments according to your usage scenarios.
+Create a file named ```tests/config.inc.php``` and define constants as follows:
+
+```php
+<?php
+
+define('ACCESS_KEY_ID', '');
+define('SECRET_KEY', '');
+define('IMAGE_SET_ID', '');
+
+define('SERVICE_TYPE_SEARCH', '');
+define('SERVICE_ID_SEARCH', '');
+define('SERVICE_TYPE_CLASSIFY', '');
+define('SERVICE_ID_CLASSIFY', '');
+define('SERVICE_TYPE_DETECT', '');
+define('SERVICE_ID_DETECT', '');
+```
+
+Run tests:
+
+```shell
+vendor/bin/phpunit --bootstrap=tests/config.inc.php tests/
+```
 
 ### Usage
 
@@ -133,13 +156,28 @@ $result = $product_ai->imageColorAnalysis($image, $type, $granularity, $return_t
 ```
 
 ```$type```: Analysis type. ```everything``` all colors on the whole image, ```foreground``` foreground colors or ```person_outfit``` the colors of person outfit.
+
 ```$granularity```: Analysis granularity. ```major``` major colors, ```detailed``` detailed colors or ```dominant``` the dominant color.
+
 ```$return_type```: The return type of colors. ```basic```, ```w3c```, ```ncs``` or ```cncs```.
+
 ```$loc```: Optional.
 
-### Testing
+## 中文说明
 
-Create a file named ```tests/config.inc.php``` and define constants as follows:
+ProductAI® SDK 提供了 API 请求封装与签名验证功能，用户可以轻松使用 PHP SDK 完成 API 的调用。
+
+### 安装
+
+推荐中国大陆用户使用[国内镜像](https://pkg.phpcomposer.com)。
+
+```shell
+composer require malong/productai
+```
+
+### 测试
+
+创建文件 ```tests/config.inc.php``` 并定义如下常量：
 
 ```php
 <?php
@@ -156,21 +194,10 @@ define('SERVICE_TYPE_DETECT', '');
 define('SERVICE_ID_DETECT', '');
 ```
 
-Run tests:
+运行测试：
 
 ```shell
 vendor/bin/phpunit --bootstrap=tests/config.inc.php tests/
-```
-
-
-## 中文说明
-
-### 安装
-
-推荐中国大陆用户使用[国内镜像](https://pkg.phpcomposer.com)。
-
-```shell
-composer require malong/productai
 ```
 
 ### 使用
@@ -291,31 +318,9 @@ $result = $product_ai->imageColorAnalysis($image, $type, $granularity, $return_t
 ```
 
 ```$type```: 分析类型，```everything``` 全图颜色、```foreground``` 前景颜色 或 ```person_outfit``` 人物服饰颜色。
+
 ```$granularity```: 分析粒度，```major``` 主要颜色、```detailed``` 所有颜色 或 ```dominant``` 最显著单色。
+
 ```$return_type```: 返回颜色类型，```basic```、```w3c```、```ncs``` 或 ```cncs```。
+
 ```$loc```: 可选。
-
-### 测试
-
-创建文件 ```tests/config.inc.php``` 并定义如下常量：
-
-```php
-<?php
-
-define('ACCESS_KEY_ID', '');
-define('SECRET_KEY', '');
-define('IMAGE_SET_ID', '');
-
-define('SERVICE_TYPE_SEARCH', '');
-define('SERVICE_ID_SEARCH', '');
-define('SERVICE_TYPE_CLASSIFY', '');
-define('SERVICE_ID_CLASSIFY', '');
-define('SERVICE_TYPE_DETECT', '');
-define('SERVICE_ID_DETECT', '');
-```
-
-运行测试：
-
-```shell
-vendor/bin/phpunit --bootstrap=tests/config.inc.php tests/
-```
