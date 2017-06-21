@@ -51,7 +51,7 @@ $product_ai = new ProductAI\API($access_key_id, $secret_key);
 #### Search image using URL
 
 ```php
-$result = $product_ai->searchImage($service_type, $service_id, $url, $loc, $tags, $count, $threshold);
+$result = $product_ai->searchImage($service_type, $service_id, $url, $loc, $tags, $count);
 ```
 
 ```$loc```: Optional, default is the entire image. An area of the image which you want to search. The format is ```[$x, $y, $w, $h]```.
@@ -60,24 +60,22 @@ $result = $product_ai->searchImage($service_type, $service_id, $url, $loc, $tags
 
 ```$count```: Optional, default is 20. The number of results that between 0 and 100. Public services do NOT support this argument.
 
-```$threshold```: Optional, default is 0. A threshold value that between 0 and 1. Set up this argument is NOT recommended.
-
 #### Search image using file
 
 ```php
-$result = $product_ai->searchImage($service_type, $service_id, '@'.$filename, $loc, $tags, $count, $threshold);
+$result = $product_ai->searchImage($service_type, $service_id, '@'.$filename, $loc, $tags, $count);
 ```
 
 #### Search image using raw image
 
 ```php
-$result = $product_ai->searchImage($service_type, $service_id, file_get_contents($filename), $loc, $tags, $count, $threshold);
+$result = $product_ai->searchImage($service_type, $service_id, file_get_contents($filename), $loc, $tags, $count);
 ```
 
 #### Search image using upload form
 
 ```php
-$result = $product_ai->searchImage($service_type, $service_id, '#'.$form_name, $loc, $tags, $count, $threshold);
+$result = $product_ai->searchImage($service_type, $service_id, '#'.$form_name, $loc, $tags, $count);
 ```
 
 #### Classify the contents of a image
@@ -213,7 +211,7 @@ $product_ai = new ProductAI\API($access_key_id, $secret_key);
 #### 使用图像 URL 搜索
 
 ```php
-$result = $product_ai->searchImage($service_type, $service_id, $url, $loc, $tags, $count, $threshold);
+$result = $product_ai->searchImage($service_type, $service_id, $url, $loc, $tags, $count);
 ```
 
 ```$loc```: 可选，默认为整张图片。用于搜索的图片区域，格式为 ```[$x, $y, $w, $h]```.
@@ -222,24 +220,22 @@ $result = $product_ai->searchImage($service_type, $service_id, $url, $loc, $tags
 
 ```$count```: 可选，默认为 20。 设置返回结果的数量，值为 0 到 100，公共服务不支持此参数。
 
-```$threshold```: 可选，默认为 0。设置返回结果的阈值， 值为 0 到 1，不建议设置此参数。
-
 #### 使用图像文件搜索
 
 ```php
-$result = $product_ai->searchImage($service_type, $service_id, '@'.$filename, $loc, $tags, $count, $threshold);
+$result = $product_ai->searchImage($service_type, $service_id, '@'.$filename, $loc, $tags, $count);
 ```
 
 #### 使用图像字符串搜索
 
 ```php
-$result = $product_ai->searchImage($service_type, $service_id, file_get_contents($filename), $loc, $tags, $count, $threshold);
+$result = $product_ai->searchImage($service_type, $service_id, file_get_contents($filename), $loc, $tags, $count);
 ```
 
 #### 使用通过表单上传的图像搜索
 
 ```php
-$result = $product_ai->searchImage($service_type, $service_id, '#'.$form_name, $loc, $tags, $count, $threshold);
+$result = $product_ai->searchImage($service_type, $service_id, '#'.$form_name, $loc, $tags, $count);
 ```
 
 #### 对图像内容分类
