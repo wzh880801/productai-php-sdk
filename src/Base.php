@@ -9,7 +9,7 @@ use CURLFile;
 
 class Base
 {
-    const VERSION = '0.2.0';
+    const VERSION = '0.2.1';
     const API = 'https://api.productai.cn';
 
     private $access_key_id;
