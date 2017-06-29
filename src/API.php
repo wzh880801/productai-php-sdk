@@ -18,7 +18,8 @@ class API extends Base
         }
     }
 
-    protected function searchImage($service_type, $service_id, $image, $loc = [], $tags = [], $count = 20, $threshold = 0.0)
+    protected function searchImage($service_type, $service_id, $image, $loc = [], $tags = [], $count = 20,
+                                   $skip_dedupe=False, $threshold = 0.0)
     {
         $this->loadImage($image);
 
@@ -37,6 +38,8 @@ class API extends Base
         if ($count) {
             $this->body['count'] = intval($count);
         }
+
+        $this->body['skip_dedupe'] = $skip_dedupe ? 1 : 0;
 
         if ($threshold && is_numeric($threshold)) {
             $this->body['threshold'] = $threshold;
