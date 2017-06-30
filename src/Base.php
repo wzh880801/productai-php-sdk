@@ -104,8 +104,12 @@ class Base
 
     private function signRequests()
     {
-        $headers = $this->headers;
-        unset($headers['user-agent']);
+        $headers = [];
+        foreach ($this->headers as $k => $v) {
+            if (substr($v, 0, 2) == 'x-') {
+                $headers[$k] = $v;
+            }
+        }
 
         $body = [];
         foreach ($this->body as $k => $v) {
