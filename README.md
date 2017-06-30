@@ -45,8 +45,10 @@ vendor/bin/phpunit --bootstrap=tests/config.inc.php tests/
 ```php
 use ProductAI;
 
-$product_ai = new ProductAI\API($access_key_id, $secret_key);
+$product_ai = new ProductAI\API($access_key_id, $secret_key, $language);
 ```
+
+```$language```: Default is ```en-US```. The language of return results. NOT all services support this argument.
 
 #### Search image using URL
 
@@ -205,8 +207,10 @@ vendor/bin/phpunit --bootstrap=tests/config.inc.php tests/
 ```php
 use ProductAI;
 
-$product_ai = new ProductAI\API($access_key_id, $secret_key);
+$product_ai = new ProductAI\API($access_key_id, $secret_key, $language);
 ```
+
+```$language```: 默认为 ```en-US```。返回结果的语言，不是所有服务都支持此参数。
 
 #### 使用图像 URL 搜索
 
@@ -214,7 +218,7 @@ $product_ai = new ProductAI\API($access_key_id, $secret_key);
 $result = $product_ai->searchImage($service_type, $service_id, $url, $loc, $tags, $count);
 ```
 
-```$loc```: 可选，默认为整张图片。用于搜索的图片区域，格式为 ```[$x, $y, $w, $h]```.
+```$loc```: 可选，默认为整张图片。用于搜索的图片区域，格式为 ```[$x, $y, $w, $h]```。
 
 ```$tags```: 可选，默认为 ```[]```。用于筛选搜索结果的标签。
 

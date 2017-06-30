@@ -9,7 +9,7 @@ use CURLFile;
 
 class Base
 {
-    const VERSION = '0.2.1';
+    const VERSION = '0.2.2';
     const API = 'https://api.productai.cn';
 
     private $access_key_id;
@@ -27,10 +27,11 @@ class Base
 
     private $tmpfile;
 
-    public function __construct($access_key_id, $secret_key)
+    public function __construct($access_key_id, $secret_key, $language='en-US')
     {
         $this->access_key_id = $access_key_id;
         $this->secret_key = $secret_key;
+        $this->language = $language;
 
         $this->initialize();
 
@@ -51,6 +52,7 @@ class Base
             'x-ca-timestamp' => time(),
             'x-ca-signaturenonce' => $this->generateNonce(16),
             'user-agent' => "ProductAI-SDK-PHP/{$this->version()} (+http://www.productai.cn)",
+            'accept-language' => $this->language,
         ];
 
         $this->body = [];
