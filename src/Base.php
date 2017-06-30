@@ -9,7 +9,7 @@ use CURLFile;
 
 class Base
 {
-    const VERSION = '0.2.4';
+    const VERSION = '0.2.5';
     const API = 'https://api.productai.cn';
 
     private $access_key_id;
@@ -104,7 +104,9 @@ class Base
 
     private function signRequests()
     {
-        $headers = [];
+        $headers = [
+            'requestmethod' => $this->headers['requestmethod'],
+        ];
         foreach ($this->headers as $k => $v) {
             if (substr($k, 0, 2) == 'x-') {
                 $headers[$k] = $v;
