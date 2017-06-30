@@ -9,7 +9,7 @@ use CURLFile;
 
 class Base
 {
-    const VERSION = '0.2.2';
+    const VERSION = '0.2.4';
     const API = 'https://api.productai.cn';
 
     private $access_key_id;
@@ -106,7 +106,7 @@ class Base
     {
         $headers = [];
         foreach ($this->headers as $k => $v) {
-            if (substr($v, 0, 2) == 'x-') {
+            if (substr($k, 0, 2) == 'x-') {
                 $headers[$k] = $v;
             }
         }
